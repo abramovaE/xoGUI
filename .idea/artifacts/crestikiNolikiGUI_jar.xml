@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="crestikiNolikiGUI:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/crestikiNolikiGUI_jar</output-path>
+    <root id="archive" name="crestikiNolikiGUI.jar">
+      <element id="module-output" name="crestikiNolikiGUI" />
+    </root>
+  </artifact>
+</component>
