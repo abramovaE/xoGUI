@@ -3,8 +3,11 @@ package ru.kotpack.crestiki.view;
 import ru.kotpack.crestiki.model.Cletka;
 import ru.kotpack.crestiki.controller.Controller;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 
 /**
@@ -14,6 +17,7 @@ public class View extends JPanel{
 
     private Controller controller;
     boolean isGameEnd;
+    private BufferedImage bufferedImage;
 
     public boolean isGameEnd() {
         return isGameEnd;
@@ -63,10 +67,32 @@ public class View extends JPanel{
             graphics.setColor(color);
         }
 
-//        if(cletka.getZnachenie().equals("x")){
-//
-//            Im
-//            graphics.drawImage()
-//        }
+        if(cletka.getZnachenie()!=null) {
+            if (cletka.getZnachenie().equals("x")) {
+                setImage(graphics,cletka, "/x.jpeg");
+            }
+
+            else if(cletka.getZnachenie().equals("o")){
+                setImage(graphics, cletka, "/o.jpeg");
+            }
+        }
+
+    }
+
+
+    private void setImage(Graphics graphics, Cletka cletka, String filename){
+        try {
+//            bufferedImage = ImageIO.read(new File(filename));
+
+//            Image image = Toolkit.getDefaultToolkit().createImage(View.class.getResource("/x.jpeg"));
+
+
+            Image image = ImageIO.read(getClass().getResource(filename));
+
+            graphics.drawImage(image, cletka.getX(), cletka.getY(), 98, 98, null);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

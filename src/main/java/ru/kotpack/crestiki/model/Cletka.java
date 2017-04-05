@@ -10,6 +10,11 @@ public class Cletka {
     private int x;
     private int y;
 
+
+
+//    public Cletka(){
+//        this.znachenie="-";
+//    }
     public String getZnachenie() {
         return znachenie;
     }
@@ -17,8 +22,6 @@ public class Cletka {
     public void setZnachenie(String znachenie) {
         this.znachenie = znachenie;
     }
-
-
 
     public int getX() {
         return x;

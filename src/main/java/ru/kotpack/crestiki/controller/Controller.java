@@ -9,6 +9,7 @@ import ru.kotpack.crestiki.view.View;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,65 +37,102 @@ public class Controller extends MouseAdapter {
     }
 
     public List<Cletka> getAllCells(){
-        return model.getAllCells();
+        List<Cletka> list = new ArrayList<Cletka>();
+        Cletka[][] cletkas = model.getPole();
+
+
+        for(int i=0; i<3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                list.add(cletkas[i][j]);
+            }
+        }
+
+
+
+        return list;
     }
 //    public List<Cletka> getFreeCells(){return model.getFreeCell();}
 
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+        mouseClicked(e);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
 
-if(model.isGameEnd()==false) {
+        int x = e.getX();
+        int y = e.getY();
 
-    int x = e.getX();
-    int y = e.getY();
-    List<Cletka> cells = getAllCells();
-    for (Cletka cletka : cells) {
+        model.hodIgroka(x, y);
 
 
+        if(model.isWasChanged()){
 
-        int cellX = cletka.getX();
-        int cellY = cletka.getY();
 
-        if (x > cellX && x < cellX + 100) {
 
-            if (y > cellY && y < cellY + 100) {
-                if (cletka.getZnachenie() == null) {
 
-                    cletka.setZnachenie("x");
+//
+//if(model.isGameEnd()==false) {
+
+
+//    List<Cletka> cells = getAllCells();
+//    for (Cletka cletka : cells) {
+//
+//
+//        int cellX = cletka.getX();
+//        int cellY = cletka.getY();
+//
+//        if (x > cellX && x < cellX + 100) {
+//
+//            if (y > cellY && y < cellY + 100) {
+//                if (cletka.getZnachenie().equals("-")) {
+//
+//                    cletka.setZnachenie("x");
+//                } else {
+//                    mouseClicked(e);
+//                }
+//
+//
+//            }
+//        }
+//    }
+//}
+            reaint();
+//    view.repaint();
+
+            if (view.isGameEnd()) {
+                gameEnd();
+            } else {
+                model.hodCompa();
+                reaint();
+//        view.repaint();
+                if (view.isGameEnd()) {
+                    gameEnd();
+
                 }
-
-                else {
-                    mouseClicked(e);
-                }
-
-
             }
-        }
-    }
-    reaint();
-    view.repaint();
 
-    if (view.isGameEnd()) {
-        JOptionPane.showMessageDialog(view, "the game is end");
-    } else {
-        model.hodCompa();
-        reaint();
-        view.repaint();
-        if (view.isGameEnd()) {
-            JOptionPane.showMessageDialog(view, "the game is end");
+
+
         }
+
+
+
+
+
     }
 
-}
 
-
-
-
-
-
-
+    private void gameEnd(){
+        int i = JOptionPane.showConfirmDialog(view, "the game is end. One more game?");
+        if(i==JOptionPane.OK_OPTION){
+            view.setGameEnd(false);
+            model.reload();
+            view.repaint();
+        }
     }
 
     private void reaint(){
@@ -102,7 +140,7 @@ if(model.isGameEnd()==false) {
             view.setGameEnd(true);
         }
 
-//        view.repaint();
+        view.repaint();
     }
 
 
