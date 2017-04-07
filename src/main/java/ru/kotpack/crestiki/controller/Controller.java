@@ -21,15 +21,9 @@ public class Controller extends MouseAdapter {
     private View view;
     private Model model;
 
-
-    public void reload(){
-        model.reload();
-    }
-
     public Controller(Model model) {
         this.model=model;
         this.view=new View(this);
-
     }
 
     public View getView() {
@@ -40,19 +34,14 @@ public class Controller extends MouseAdapter {
         List<Cletka> list = new ArrayList<Cletka>();
         Cletka[][] cletkas = model.getPole();
 
-
         for(int i=0; i<3; i++) {
             for (int j = 0; j < 3; j++) {
 
                 list.add(cletkas[i][j]);
             }
         }
-
-
-
         return list;
     }
-//    public List<Cletka> getFreeCells(){return model.getFreeCell();}
 
 
     @Override
@@ -72,57 +61,20 @@ public class Controller extends MouseAdapter {
         if(model.isWasChanged()){
 
 
-
-
-//
-//if(model.isGameEnd()==false) {
-
-
-//    List<Cletka> cells = getAllCells();
-//    for (Cletka cletka : cells) {
-//
-//
-//        int cellX = cletka.getX();
-//        int cellY = cletka.getY();
-//
-//        if (x > cellX && x < cellX + 100) {
-//
-//            if (y > cellY && y < cellY + 100) {
-//                if (cletka.getZnachenie().equals("-")) {
-//
-//                    cletka.setZnachenie("x");
-//                } else {
-//                    mouseClicked(e);
-//                }
-//
-//
-//            }
-//        }
-//    }
-//}
             reaint();
-//    view.repaint();
 
             if (view.isGameEnd()) {
                 gameEnd();
             } else {
                 model.hodCompa();
                 reaint();
-//        view.repaint();
+
                 if (view.isGameEnd()) {
                     gameEnd();
 
                 }
             }
-
-
-
         }
-
-
-
-
-
     }
 
 
@@ -142,6 +94,4 @@ public class Controller extends MouseAdapter {
 
         view.repaint();
     }
-
-
 }

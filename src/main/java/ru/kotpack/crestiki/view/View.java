@@ -42,17 +42,6 @@ public class View extends JPanel{
         for(Cletka cletka: controller.getAllCells()){
             drawCletka(graphics, cletka);
         }
-
-//
-//        if (isGameEnd) {
-//            JOptionPane.showMessageDialog(this, "game is end");
-////            switch (result){
-////                case JOptionPane.YES_OPTION:controller.reload();break;
-////                case JOptionPane.NO_OPTION:break;
-////
-////            }
-
-//        }
     }
 
     public void drawCletka(Graphics graphics, Cletka cletka){
@@ -82,13 +71,8 @@ public class View extends JPanel{
 
     private void setImage(Graphics graphics, Cletka cletka, String filename){
         try {
-//            bufferedImage = ImageIO.read(new File(filename));
-
-//            Image image = Toolkit.getDefaultToolkit().createImage(View.class.getResource("/x.jpeg"));
-
 
             Image image = ImageIO.read(getClass().getResource(filename));
-
             graphics.drawImage(image, cletka.getX(), cletka.getY(), 98, 98, null);
 
         } catch (IOException e) {

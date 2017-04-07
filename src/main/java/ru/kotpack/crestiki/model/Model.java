@@ -1,8 +1,7 @@
 package ru.kotpack.crestiki.model;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by kot on 03.04.17.
@@ -49,9 +48,6 @@ public class Model {
 
 
     public boolean isGameEnd() {
-
-
-//        List<Cletka> freeCells = getFreeCell();
         if(getFreeCell().isEmpty()){
             return true;
         }
@@ -94,12 +90,6 @@ public class Model {
 
     public List<Cletka> getFreeCell(){
         List<Cletka> res = new ArrayList<Cletka>();
-//        List<Cletka> allCells = getAllCells();
-//        for(Cletka cletka:allCells){
-//            if(cletka.getZnachenie()==null){
-//                res.add(cletka);
-//            }
-//        }
         for(int i = 0; i<RAZMER ; i++){
             for(int j = 0; j<RAZMER; j++){
                 if(pole[i][j].getZnachenie()==null){
@@ -111,29 +101,119 @@ public class Model {
     }
 
 
-//    public   List<Cletka> getAllCels(){
-//        List<Cletka> res = new ArrayList<Cletka>();
-//        for(int i = 0; i<3 ; i++){
-//            for(int j = 0; j<3; j++){
-//                    res.add(pole[i][j]);
-//
-//            }
-//        }
-//        return res;
-//    }
-
-
-
+    public List<Cletka> getCellX(){
+        List<Cletka> res = new ArrayList<Cletka>();
+        for(int i = 0; i<RAZMER ; i++){
+            for(int j = 0; j<RAZMER; j++){
+                if(pole[i][j].getZnachenie().equals("x")){
+                    res.add(pole[i][j]);
+                }
+            }
+        }
+        return res;
+    }
 
     public void hodCompa(){
 
+        boolean isChanged = false;
 
-        List<Cletka> freeCell = getFreeCell();
+        List<Cletka> listD1 = new ArrayList<Cletka>();
+        List<Cletka> listD2 = new ArrayList<Cletka>();
+        for(int i = 0; i< RAZMER; i++) {
+            List<Cletka> listY = new ArrayList<Cletka>();
+            List<Cletka> listX = new ArrayList<Cletka>();
+
+
+            for (int j = 0; j < RAZMER; j++) {
+                if (pole[i][j].getZnachenie() != null && pole[i][j].getZnachenie().equals("x")) {
+                    listY.add(pole[i][j]);
+                }
+
+                if (pole[j][i].getZnachenie() != null && pole[j][i].getZnachenie().equals("x")) {
+                    listX.add(pole[j][i]);
+                }
+
+
+
+                if (i == j && pole[i][j].getZnachenie() != null && pole[i][j].getZnachenie().equals("x")) {
+                    listD1.add(pole[i][j]);
+                }
+
+                if (i + j == RAZMER-1 && pole[i][j].getZnachenie() != null && pole[i][j].getZnachenie().equals("x")) {
+                    listD2.add(pole[i][j]);
+                }
+            }
+
+            int razmer = RAZMER;
+            if (listY.size() == RAZMER - 1) {
+                for (Cletka cletka : listY) {
+                    razmer -= cletka.getY()/100;
+                }
+
+                if (isChanged==false && razmer >= 0 && pole[i][razmer].getZnachenie() == null) {
+                    pole[i][razmer].setZnachenie("o");
+                    isChanged = true;
+                }
+           }
+
+
+
+            else if(listX.size() == RAZMER - 1){
+                for (Cletka cletka : listX){
+                    razmer -= cletka.getX()/100;
+                }
+
+                if(isChanged == false && razmer >= 0 && pole[razmer][i].getZnachenie() == null){
+                    pole[razmer][i].setZnachenie("o");
+                    isChanged = true;
+                }
+            }
+        }
+
+
+
+        if(isChanged==false && listD1.size() == RAZMER - 1){
+            int rX = RAZMER;
+            int rY = RAZMER;
+
+            for (Cletka cletka : listD1){
+                rX -=cletka.getX()/100;
+                rY -=cletka.getY()/100;
+            }
+
+            if(isChanged == false && rX >= 0 && rY>=0 && pole[rX][rY].getZnachenie() == null){
+                pole[rX][rY].setZnachenie("o");
+                isChanged = true;
+            }
+        }
+
+
+
+        else if(isChanged == false && listD2.size()== RAZMER - 1) {
+            int rX = RAZMER;
+            int rY = RAZMER;
+
+            for (Cletka cletka : listD2) {
+                rX -= cletka.getX() / 100;
+                rY -= cletka.getY() / 100;
+            }
+
+            if (isChanged == false && rX >= 0 && rY>=0 && pole[rX][rY].getZnachenie() == null) {
+                pole[rX][rY].setZnachenie("o");
+                isChanged = true;
+            }
+        }
+
+
+
+
+
+        if(isChanged == false){
+            List<Cletka> freeCell = getFreeCell();
             int computerAnswer = getRandomFreeCell(freeCell);
             Cletka cletka = freeCell.get(computerAnswer);
             cletka.setZnachenie("o");
-            freeCell.set(computerAnswer, cletka);
-
+        }
     }
 
 
@@ -165,13 +245,25 @@ public class Model {
                             }
                         }
                     }
-
                 }
             }
         }
     }
 
 
-
-
+//    private void setOForDiag(List<Cletka> list){
+//
+//            int rX = RAZMER;
+//            int rY = RAZMER;
+//
+//            for (Cletka cletka : list) {
+//                rX -= cletka.getX() / 100;
+//                rY -= cletka.getY() / 100;
+//            }
+//
+//            if (isChanged == false && rX >= 0 && rY>=0 && pole[rX][rY].getZnachenie() == null) {
+//                pole[rX][rY].setZnachenie("o");
+//                isChanged = true;
+//            }
+//    }
 }
